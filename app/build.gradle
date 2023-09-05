@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+	namespace 'de.markusfisch.android.wavelines'
+	compileSdkVersion sdk_version
+
+	defaultConfig {
+		minSdkVersion 9
+		targetSdkVersion sdk_version
+
+		versionCode 22
+		versionName '1.13.2'
+	}
+
+	signingConfigs {
+		release {
+			keyAlias System.getenv('ANDROID_KEY_ALIAS')
+			keyPassword System.getenv('ANDROID_KEY_PASSWORD')
+			storePassword System.getenv('ANDROID_STORE_PASSWORD')
+			def filePath = System.getenv('ANDROID_KEYFILE')
+			storeFile filePath ? file(filePath) : null
+		}
+	}
+
+	buildTypes {
+		debug {
+			applicationIdSuffix '.debug'
+		}
+
+		release {
+			minifyEnabled true
+			shrinkResources true
+			signingConfig signingConfigs.release
+		}
+	}
+}
+
+dependencies {
+	implementation "com.android.support:appcompat-v7:$support_version"
+	implementation "com.android.support:design:$support_version"
+	implementation "com.android.support:palette-v7:$support_version"
+	implementation "com.android.support:preference-v7:$support_version"
+	implementation "com.android.support:recyclerview-v7:$support_version"
+}
